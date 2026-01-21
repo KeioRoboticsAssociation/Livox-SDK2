@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.14)
 
 project(livox_sdk2)
 
@@ -18,3 +18,21 @@ endif(UNIX)
 
 add_subdirectory(sdk_core)
 add_subdirectory(samples)
+
+find_package(ament_cmake REQUIRED)
+
+# インストール設定 (ライブラリやヘッダーを適切な場所に配置)
+install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/
+  DESTINATION include/livox_sdk2
+)
+
+# ライブラリ本体(.so)を install/lib にコピーする設定
+install(TARGETS livox_lidar_sdk_shared
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+
+# 自身を ament パッケージとして登録
+ament_package()
